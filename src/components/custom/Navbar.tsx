@@ -25,6 +25,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "./ModeToggle";
 
 interface MenuItem {
   title: string;
@@ -84,7 +85,7 @@ const Navbar = ({
   const pathname = usePathname()
 
   return (
-    <section className={cn("py-4", className)}>
+    <section className={cn("py-4 border-b-2", className)}>
       <div className="container mx-auto">
         {/* Desktop Menu */}
         <nav className="hidden items-center px-4 mx-auto max-w-9xl justify-between lg:flex">
@@ -112,6 +113,7 @@ const Navbar = ({
           </div>
 
           <div className="flex gap-2">
+            <ModeToggle />
             <Button asChild variant="outline" size="lg">
               <Link href={auth.login.url}>{auth.login.title}</Link>
             </Button>
@@ -160,6 +162,7 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
+                    <ModeToggle />
                     <Button asChild variant="outline">
                       <Link href={auth.login.url}>{auth.login.title}</Link>
                     </Button>
