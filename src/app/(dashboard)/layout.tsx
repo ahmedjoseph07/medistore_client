@@ -1,12 +1,15 @@
+
+
+import { DashSidebar } from '@/components/custom/DashSidebar'
 import React from 'react'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div>
-            <p>Sidebar</p>
+        <section>
+            <DashSidebar />
             {children}
             <p>Footer</p>
-        </div>
+        </section>
     )
 }
 

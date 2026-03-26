@@ -1,6 +1,5 @@
-import React from 'react'
+const StorePage = async () => {
 
-const StorePage = () => {
   return (
     <div>
       StorePage
