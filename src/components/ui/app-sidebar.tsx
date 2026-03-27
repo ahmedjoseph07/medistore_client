@@ -16,69 +16,31 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-import {
-  Store,
-  Pill,
-  Layers,
-  Users,
-  ShoppingCart,
-  CreditCard,
-  Star,
-  BarChart3,
-} from "lucide-react";
+import { adminRoutes } from "@/routes/adminRoutes";
+import { sellerRoutes } from "@/routes/sellerRoutes";
+import { Route } from "@/app/types";
 
-const data = {
-  navMain: [
-    {
-      title: "Store Management",
-      icon: Store,
-      items: [
-        { title: "All Stores", url: "/dashboard/all-stores" },
-        { title: "Add Store", url: "/dashboard/add-store" },
-      ],
-    },
-    {
-      title: "Medicine Management",
-      icon: Pill,
-      items: [
-        { title: "All Medicines", url: "/dashboard/all-medicines" },
-        { title: "Add Medicine", url: "/dashboard/add-medicine" },
-        { title: "Categories", url: "/dashboard/categories" },
-      ],
-    },
-    {
-      title: "Orders & Sales",
-      icon: ShoppingCart,
-      items: [
-        { title: "Orders", url: "/dashboard/orders" },
-        { title: "Payments", url: "/dashboard/payments" },
-      ],
-    },
-    {
-      title: "Users & Reviews",
-      icon: Users,
-      items: [
-        { title: "All Users", url: "/dashboard/users" },
-        { title: "Reviews", url: "/dashboard/reviews" },
-      ],
-    },
-    {
-      title: "Analytics",
-      icon: BarChart3,
-      items: [
-        { title: "Overview", url: "/dashboard" },
-      ],
-    },
-  ],
-};
 
-export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ role, ...props }: { role: string | undefined } & React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
+
+  let routes: Route[] = []
+
+  switch (role) {
+    case "admin":
+      routes = adminRoutes
+      break
+    case "seller":
+      routes = sellerRoutes
+      break
+    default:
+      routes = []
+  }
 
   return (
     <Sidebar {...props}>
       <SidebarContent>
-        {data.navMain.map((group) => (
+        {routes.map((group) => (
           <SidebarGroup key={group.title}>
 
             {/* Group Title + Icon */}

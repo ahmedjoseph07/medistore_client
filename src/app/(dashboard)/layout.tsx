@@ -1,12 +1,23 @@
-
 import DashSidebar from '@/components/custom/DashSidebar'
-import { Church } from 'lucide-react'
-import React from 'react'
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+
+const DashboardLayout = ({
+    children,
+    seller,
+    admin
+}: {
+    children: React.ReactNode,
+    seller: React.ReactNode,
+    admin: React.ReactNode
+}) => {
+
+    const user = {
+        role: "admin"
+    }
+
     return (
         <section>
-            <DashSidebar children={children} />
+            <DashSidebar children={children} seller={seller} admin={admin} role={user?.role} />
         </section>
     )
 }
