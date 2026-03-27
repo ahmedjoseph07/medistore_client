@@ -4,9 +4,6 @@ import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 
 import {
   Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
@@ -73,6 +70,10 @@ const Navbar = ({
     {
       title: "Contact Us",
       url: "/contact",
+    },
+    {
+      title: "Dashboard",
+      url: "/dashboard",
     },
   ],
   auth = {

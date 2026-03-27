@@ -1,14 +1,12 @@
 
-
-import { DashSidebar } from '@/components/custom/DashSidebar'
+import DashSidebar from '@/components/custom/DashSidebar'
+import { Church } from 'lucide-react'
 import React from 'react'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <section>
-            <DashSidebar />
-            {children}
-            <p>Footer</p>
+            <DashSidebar children={children} />
         </section>
     )
 }

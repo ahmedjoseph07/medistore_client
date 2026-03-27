@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowBigLeft, Pill } from "lucide-react";
+import { ArrowLeft, Pill } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -31,7 +31,7 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button asChild>
                         <Link href="/">
-                            <ArrowBigLeft />
+                            <ArrowLeft />
                             Home
                         </Link>
                     </Button>
