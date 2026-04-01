@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 
 import {
   Accordion,
@@ -19,9 +19,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { authClient, getAuthErrorMessage } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { ModeToggle } from "./ModeToggle";
 
 interface MenuItem {
@@ -84,6 +86,37 @@ const Navbar = ({
 }: NavbarProps) => {
 
   const pathname = usePathname()
+  const router = useRouter()
+  const { data: sessionData, isPending } = authClient.useSession()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
+
+  const sessionUser = sessionData?.user
+  const userDisplayName = getUserDisplayName(sessionUser)
+
+  const handleLogout = async () => {
+    if (isLoggingOut) {
+      return
+    }
+
+    setAuthError(null)
+    setIsLoggingOut(true)
+
+    try {
+      const result = await authClient.signOut()
+
+      if (result.error) {
+        setAuthError(getAuthErrorMessage(result.error, "Unable to log out."))
+        return
+      }
+
+      router.refresh()
+    } catch (error) {
+      setAuthError(getAuthErrorMessage(error, "Unable to log out."))
+    } finally {
+      setIsLoggingOut(false)
+    }
+  }
 
   return (
     <section className={cn("py-4 border-b-2", className)}>
@@ -113,14 +146,49 @@ const Navbar = ({
             </div>
           </div>
 
-          <div className="flex gap-2">
-            <ModeToggle />
-            <Button asChild variant="outline" size="lg">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild size="lg">
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+          <div className="flex flex-col items-end gap-1">
+            <div className="flex items-center gap-2">
+              <ModeToggle />
+              {isPending ? (
+                <Button variant="outline" size="lg" disabled>
+                  Loading...
+                </Button>
+              ) : sessionUser ? (
+                <>
+                  <div className="flex items-center gap-3 rounded-full border border-border bg-background px-2 py-1">
+                    {renderUserAvatar({
+                      image: sessionUser.image ?? null,
+                      label: userDisplayName,
+                    })}
+                    <span className="hidden max-w-32 truncate text-sm font-medium xl:inline">
+                      {userDisplayName}
+                    </span>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    type="button"
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                  >
+                    <LogOut className="size-4" />
+                    {isLoggingOut ? "Logging out..." : "Logout"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild variant="outline" size="lg">
+                    <Link href={auth.login.url}>{auth.login.title}</Link>
+                  </Button>
+                  <Button asChild size="lg">
+                    <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+            {authError ? (
+              <p className="text-xs text-red-600">{authError}</p>
+            ) : null}
           </div>
         </nav>
 
@@ -164,12 +232,52 @@ const Navbar = ({
 
                   <div className="flex flex-col gap-3">
                     <ModeToggle />
-                    <Button asChild variant="outline">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
+                    {isPending ? (
+                      <Button variant="outline" disabled>
+                        Loading...
+                      </Button>
+                    ) : sessionUser ? (
+                      <>
+                        <div className="flex items-center gap-3 rounded-lg border border-border bg-background px-3 py-2">
+                          {renderUserAvatar({
+                            image: sessionUser.image ?? null,
+                            label: userDisplayName,
+                            className: "size-11",
+                          })}
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold">
+                              {userDisplayName}
+                            </p>
+                            {sessionUser.email ? (
+                              <p className="truncate text-xs text-muted-foreground">
+                                {sessionUser.email}
+                              </p>
+                            ) : null}
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          type="button"
+                          onClick={handleLogout}
+                          disabled={isLoggingOut}
+                        >
+                          <LogOut className="size-4" />
+                          {isLoggingOut ? "Logging out..." : "Logout"}
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button asChild variant="outline">
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+                        <Button asChild>
+                          <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                        </Button>
+                      </>
+                    )}
+                    {authError ? (
+                      <p className="text-xs text-red-600">{authError}</p>
+                    ) : null}
                   </div>
                 </div>
               </SheetContent>
@@ -178,6 +286,66 @@ const Navbar = ({
         </div>
       </div>
     </section>
+  );
+};
+
+const getUserDisplayName = (
+  user: { name?: string | null; email?: string | null } | null | undefined
+) => {
+  if (!user) {
+    return "User";
+  }
+
+  const trimmedName = user.name?.trim();
+
+  if (trimmedName) {
+    return trimmedName;
+  }
+
+  const emailName = user.email?.split("@")[0]?.trim();
+
+  return emailName || "User";
+};
+
+const getUserInitials = (label: string) => {
+  const parts = label.split(/\s+/).filter(Boolean).slice(0, 2);
+
+  if (!parts.length) {
+    return "U";
+  }
+
+  return parts.map((part) => part.charAt(0).toUpperCase()).join("");
+};
+
+const renderUserAvatar = ({
+  image,
+  label,
+  className,
+}: {
+  image?: string | null;
+  label: string;
+  className?: string;
+}) => {
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt={label}
+        className={cn("size-9 rounded-full object-cover", className)}
+      />
+    );
+  }
+
+  return (
+    <div
+      aria-label={label}
+      className={cn(
+        "flex size-9 items-center justify-center rounded-full bg-green-600 text-sm font-semibold text-white",
+        className
+      )}
+    >
+      {getUserInitials(label)}
+    </div>
   );
 };
 
