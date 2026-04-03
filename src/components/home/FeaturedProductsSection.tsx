@@ -16,9 +16,7 @@ export default function FeaturedProductsSection() {
     <section className="space-y-6 pb-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="space-y-2">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-green-700">
-            Featured products
-          </p>
+          <p className="section-eyebrow">Featured products</p>
           <h2 className="text-3xl font-semibold tracking-tight">
             Best sellers customers reorder often
           </h2>
@@ -35,7 +33,7 @@ export default function FeaturedProductsSection() {
         {products.map((product) => (
           <article
             key={product.id}
-            className="overflow-hidden rounded-[1.5rem] border bg-background shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            className="surface-card overflow-hidden p-0 transition-all hover:-translate-y-1 hover:shadow-md"
           >
             <div className="flex h-40 items-center justify-center bg-gradient-to-br from-green-50 via-muted/40 to-emerald-100/70">
               <div className="rounded-full border border-green-200 bg-background px-4 py-2 text-sm font-medium text-green-700">

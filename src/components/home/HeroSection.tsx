@@ -19,7 +19,7 @@ const highlights = [
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border bg-gradient-to-br from-green-50 via-background to-emerald-100/60 px-6 py-12 shadow-sm md:px-10 md:py-16">
+    <section className="section-shell relative md:py-16">
       <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.16),transparent_55%)] lg:block" />
 
       <div className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
@@ -71,7 +71,7 @@ export default function HeroSection() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-          <div className="rounded-[1.75rem] border bg-background/90 p-6 shadow-sm">
+          <div className="surface-card rounded-[1.75rem] bg-background/90">
             <p className="text-sm font-medium text-muted-foreground">Today&apos;s care snapshot</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
               <div className="rounded-2xl bg-muted/60 p-4">
@@ -89,7 +89,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] border border-green-200 bg-green-600 p-6 text-white shadow-sm">
+          <div className="surface-card rounded-[1.75rem] border-green-200 bg-green-600 text-white">
             <p className="text-sm font-medium text-green-50/90">Need prescription medicine?</p>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight">
               Share your prescription and let the team prepare your order.

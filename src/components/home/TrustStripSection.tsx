@@ -28,14 +28,12 @@ export default function TrustStripSection() {
     <section className="space-y-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="space-y-2">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-green-700">
-            Why patients trust MediStore
-          </p>
+          <p className="section-eyebrow">Why patients trust MediStore</p>
           <h2 className="text-3xl font-semibold tracking-tight">
             Built for reliability, not just convenience
           </h2>
         </div>
-        <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+        <p className="section-lead max-w-xl">
           This section works better as a compact trust grid than a plain strip because it
           gives each promise enough context to feel credible.
         </p>
@@ -48,7 +46,7 @@ export default function TrustStripSection() {
           return (
             <div
               key={item.title}
-              className="group rounded-[1.5rem] border bg-background p-5 shadow-sm transition-colors hover:border-green-200 hover:bg-green-50/40"
+              className="surface-card group p-5 transition-colors hover:border-green-200 hover:bg-green-50/40"
             >
               <div className="flex size-12 items-center justify-center rounded-2xl bg-green-100 text-green-700 transition-colors group-hover:bg-green-600 group-hover:text-white">
                 <Icon className="size-5" />

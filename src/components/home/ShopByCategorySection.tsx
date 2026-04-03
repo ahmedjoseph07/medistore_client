@@ -38,12 +38,10 @@ export default function ShopByCategorySection() {
     <section className="space-y-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="space-y-2">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-green-700">
-            Categories
-          </p>
+          <p className="section-eyebrow">Categories</p>
           <h2 className="text-3xl font-semibold tracking-tight">Shop by care need</h2>
         </div>
-        <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+        <p className="section-lead max-w-xl">
           I shifted this from plain text cards to icon-led category tiles so the section is
           easier to scan and feels closer to a modern marketplace block.
         </p>
@@ -56,7 +54,7 @@ export default function ShopByCategorySection() {
           return (
             <article
               key={category.name}
-              className="group rounded-[1.5rem] border bg-background p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-green-200 hover:shadow-md"
+              className="surface-card group transition-all hover:-translate-y-1 hover:border-green-200 hover:shadow-md"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="rounded-2xl bg-green-100 p-3 text-green-700">
