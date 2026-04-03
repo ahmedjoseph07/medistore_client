@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, ShoppingCart } from "lucide-react";
 
 import {
   Accordion,
@@ -149,6 +149,11 @@ const Navbar = ({
           <div className="flex flex-col items-end gap-1">
             <div className="flex items-center gap-2">
               <ModeToggle />
+              <Button asChild variant="outline" size="icon" aria-label="Cart">
+                <Link href="/cart">
+                  <ShoppingCart className="size-4" />
+                </Link>
+              </Button>
               {isPending ? (
                 <Button variant="outline" size="lg" disabled>
                   Loading...
@@ -203,12 +208,18 @@ const Navbar = ({
                 alt={logo.alt}
               />
             </Link>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
-                </Button>
-              </SheetTrigger>
+            <div className="flex items-center gap-2">
+              <Button asChild variant="outline" size="icon" aria-label="Cart">
+                <Link href="/cart">
+                  <ShoppingCart className="size-4" />
+                </Link>
+              </Button>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="size-4" />
+                  </Button>
+                </SheetTrigger>
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
@@ -281,7 +292,8 @@ const Navbar = ({
                   </div>
                 </div>
               </SheetContent>
-            </Sheet>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>

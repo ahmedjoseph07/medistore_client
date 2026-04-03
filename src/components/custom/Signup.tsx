@@ -5,7 +5,7 @@ import { authClient, getAuthErrorMessage, startGoogleAuth } from "@/lib/auth-cli
 import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SignupProps {
   heading?: string;
@@ -36,7 +36,7 @@ const Signup = ({
   signupUrl = "/sign-in",
   className,
 }: SignupProps) => {
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -96,7 +96,7 @@ const Signup = ({
     setSuccessMessage(null);
   };
 
-  const handleCredentialSignup = async (event: FormEvent<HTMLFormElement>) => {
+  const handleCredentialSignup = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (isBusy) {
@@ -257,7 +257,7 @@ const Signup = ({
             </Button>
             <Link href="/" className="w-full">
               <Button variant="ghost" type="button" className="w-full">
-                <ArrowLeft/> Go to Home
+                <ArrowLeft /> Go to Home
               </Button>
             </Link>
           </form>
